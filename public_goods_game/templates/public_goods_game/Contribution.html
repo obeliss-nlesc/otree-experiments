@@ -1,0 +1,171 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block custom_styles %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+    /* Page Styles */
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #eef1f5;
+        /* Light background for the page */
+        color: #4a4a4a;
+        /* Universal text color */
+    }
+
+
+
+    .form-container {
+        position: relative;
+        margin-top: 40px;
+        padding: 30px;
+        border: 1px solid #dfdfdf;
+        border-radius: 8px;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+
+        background-color: #f8f9fc;
+    }
+
+    .error-message {
+        color: red;
+        font-weight: bold;
+    }
+
+    .info-text {
+        color: #6c757d !important;
+        font-size: 1.1em;
+        background-color: #f1f3f5;
+        padding: 15px;
+        border-radius: 6px;
+        border-left: 5px solid #0275d8 !important;
+    }
+
+    .game-round-info {
+        position: absolute;
+        bottom: 10px;
+        right: 30px;
+        font-size: 0.9em;
+        color: #343a40;
+        font-weight: 500;
+    }
+
+    /* Next button styling */
+    .next-button-container .btn {
+        background-color: #2980b9;
+        /* Stylized button background */
+        color: white;
+        /* White text on button */
+        border: none;
+        /* Removing button border */
+        font-weight: bold;
+        /* Making button text bold */
+        padding: 0.5rem 2rem;
+        /* Padding inside the button */
+        border-radius: 5px;
+        /* Rounded corners */
+        transition: background-color 0.3s ease;
+        /* Smooth background transition for hover */
+    }
+
+    .next-button-container .btn:hover {
+        background-color: #1a5276;
+        /* Darker shade on hover */
+        cursor: pointer;
+        /* Indicate button is clickable */
+    }
+
+    .mgslider-wrapper {
+
+        border-spacing: 10px;
+        margin-bottom: 20px;
+        max-width: 500px;
+
+    }
+
+    .mgslider-limit {
+        width: 10%;
+        min-width: 75px;
+        /* Ensure text doesn't get too squished */
+        height: 40px;
+        /* A taller height for better touch target on mobile devices */
+        margin-right: 5px;
+        margin-left: 5px;
+        /* Sufficient space but not too far from the slider */
+        text-align: center;
+        background: #eee;
+        border: 1px solid #888;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* Vertically center the text */
+        border-radius: 5px;
+        margin-bottom: 10px;
+        /* Soften the corners for a modern look */
+    }
+
+    .mgslider-value {
+        font-variant-numeric: tabular-nums;
+        /* Additional styling could be added here if needed */
+    }
+
+    .mgslider-before {
+        height: 16px;
+        /* Line height of the slider */
+        width: 100%;
+        /* Ensure it spans the entire width of its container */
+        background: #1e5bff;
+        /* Slider color */
+        border-radius: 8px;
+        /* Rounded corners for the slider line */
+        position: relative;
+        /* To position the slider thumb absolutely */
+    }
+
+    .mgslider-feedback {
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        text-align: start;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1 class="card-title text-center" style="margin-bottom: 30px;"><i class="far fa-edit mr-2"></i>Investment decision
+    </h1>
+    {% if round_number == 1 %}
+    <p class="info-text">You are presented with an Investment Decision: It is up to you to decide how much of your
+        initial endowment you wish to
+        invest. This strategic choice will
+        determine the potential growth of your investment. Please consider your options carefully to maximize the
+        benefit from
+        your endowment. The rest from your public investment will go to the private account.</p>
+    {% endif %}
+    {{ formfield_errors 'public_investment' }}
+    <form action="" method="post" class="mt-5">
+        <p>How much would you like to invest in the public account?</p>
+        <div id="sliders_here"></div>
+
+        <script src="{{ static 'mgslider.js' }}"></script>
+
+        <script>
+            $(document).ready(function (event) {
+                slider = new mgslider("public_investment", 0, 20, 1);
+                slider.yourvalue = "Your investment"
+                slider.print(document.getElementById("sliders_here"));
+
+            });
+        </script>
+
+        <div class="next-button-container">
+            {{ next_button }}
+        </div>
+        <div class="game-round-info">
+            Round: {{ round_number }}
+        </div>
+    </form>
+</div>
+{% endblock %}

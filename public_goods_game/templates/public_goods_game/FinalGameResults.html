@@ -1,0 +1,122 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block custom_styles %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+    /* Page Styles */
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #FAFAFA;
+        color: #333;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+    }
+
+    h1 {
+        color: #2C3E50;
+        font-size: 2.5em;
+        margin-bottom: 0.5em;
+        text-align: center;
+    }
+
+    .card {
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        margin-top: 2em;
+        overflow: hidden;
+    }
+
+    .card-header {
+        background-color: #2980B9;
+        color: #FFFFFF;
+        font-size: 1.5em;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .card-icon {
+        display: inline-block;
+        font-size: 1.2em;
+    }
+
+    .card-body {
+        background-color: #FFF;
+        padding: 20px;
+    }
+
+    .table {
+        margin-top: 1em;
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .table th {
+        background-color: #3498DB;
+        color: white;
+        font-weight: 700;
+        border: none;
+    }
+
+    .table td {
+        font-weight: 500;
+        background-color: #fdfdfd;
+        border: none;
+    }
+
+    .table thead th {
+        position: sticky;
+        top: 0;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f3f6f9;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #ECF0F1;
+    }
+
+    .table tbody tr td:last-child {
+        color: #2980B9;
+        font-size: 1.1em;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="text-center my-4">
+        <h1 class="display-4"><i class="fas fa-trophy card-icon"></i>End Results</h1>
+    </div>
+    <div class="card mt-5 shadow-lg">
+        <div class="card-header">
+            <span>Final Payoffs</span>
+            <i class="fas fa-chart-line card-icon"></i>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Player</th>
+                        <th scope="col">Final Payoff</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>YOU</td>
+                        <td>{{ player_accumulated_payoff }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

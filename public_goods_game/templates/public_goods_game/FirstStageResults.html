@@ -1,0 +1,139 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block custom_styles %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+    /* Page Styles */
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    h1 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2.2em;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+
+    .card-body {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        position: relative;
+    }
+
+    table.table {
+        width: 100%;
+        margin-bottom: 1.5rem;
+    }
+
+    .table thead th {
+        background-color: #3498db;
+        color: white;
+        border: none;
+    }
+
+    .table tbody tr td {
+        background-color: #ecf0f1;
+        border-top: none;
+        color: #2c3e50;
+    }
+
+    .table tbody tr:hover {
+        background-color: #daeaf6;
+    }
+
+    .table tbody tr td:last-child {
+        font-weight: bold;
+    }
+
+    .next-button-container {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .next-button-container button.btn {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 30px;
+        border-radius: 20px;
+        transition: background-color 0.3s;
+        font-size: 1em;
+        font-weight: bold;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .next-button-container button.btn:hover {
+        background-color: #21618c;
+        cursor: pointer;
+    }
+
+    .game-round-info {
+        font-size: 0.9em;
+        color: #7f8c8d;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        font-weight: bold;
+    }
+
+    @media screen and (max-width: 768px) {
+        .game-round-info {
+            position: static;
+            margin-top: 20px;
+        }
+    }
+</style>
+{% endblock custom_styles %}
+
+{% block content %}
+<div class="container">
+    <h1><i class="fas fa-chart-bar"></i> Results</h1>
+    <div class="card mt-3">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-piggy-bank"></i> Private Payoff</th>
+                        <th><i class="fas fa-hand-holding-usd"></i> Your Public Investment</th>
+                        <th><i class="fas fa-globe"></i> Public Payoff</th>
+                        <th><i class="fas fa-wallet"></i> Total Payoff</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+
+                        <td>{{ player.payoff_from_private }}</td>
+                        <td>{{ player.public_investment }}</td>
+                        <td>{{ player.payoff_from_public }}</td>
+                        <td>{{ player.gross_profit }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="next-button-container">
+                {{ next_button }}
+            </div>
+            <div class="game-round-info">
+                <i class="far fa-clock"></i> Round: {{ round_number }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,153 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block custom_styles %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+    /* Page Styles */
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #f7f7f7;
+        color: #333;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 40px auto;
+    }
+
+    h1 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2.5rem;
+    }
+
+    .card {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+
+    .card-header {
+        background-color: #2980b9;
+        color: #fff;
+        font-size: 1.3rem;
+        font-weight: bold;
+        border-bottom: none;
+    }
+
+    .card-body {
+        background-color: #fff;
+        padding: 1.5rem;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table th {
+        background-color: #3498db;
+        color: white;
+        font-weight: bold;
+        border-left: none;
+    }
+
+    .table td {
+        background-color: #fff;
+        border-top: none;
+        color: #555;
+        font-weight: 500;
+    }
+
+    .table tbody tr:hover {
+        background-color: #daeaf6;
+    }
+
+    .table tbody tr td:last-child {
+        font-weight: bold;
+        color: #2980b9;
+    }
+
+    .next-button-container {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .next-button-container .btn {
+        background-color: #2980b9;
+        color: white;
+        border: none;
+        padding: 0.75rem 3rem;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 1.1rem;
+        transition: background-color 0.3s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        width: auto;
+        display: inline-block;
+    }
+
+    .next-button-container .btn:hover {
+        background-color: #1a5276;
+        cursor: pointer;
+    }
+
+    .player-highlight {
+        font-weight: bold;
+        color: #e74c3c;
+    }
+
+    .fa-icon {
+        margin-right: 0.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center my-4">
+        <h1><i class="fa fa-eye fa-icon"></i>Observation Page</h1>
+    </div>
+
+    {% for round_number, round_data in table_data %}
+    <div class="card mt-4 shadow">
+        <h2 class="card-header">Player Data - Round - {{round_number}}</h2>
+        <div class="card-body">
+            <table class="table table-hover table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th><i class="fa fa-user fa-icon"></i>Player</th>
+                        <th><i class="fa fa-hand-holding-usd fa-icon"></i>Public Investment</th>
+                        <th><i class="fa fa-sitemap fa-icon"></i>Private investment</th>
+                        <th><i class="fa fa-dollar-sign fa-icon"></i>Payoff</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for public_investment, private_investment, payoff in round_data %}
+                    <tr>
+                        {% if forloop.counter == player_id %}
+                        <td>YOU</td>
+                        {% else %}
+                        <td>Player #{{ forloop.counter }}</td>
+                        {% endif %}
+                        <!-- Custom tag to highlight the player -->
+                        <td>{{ public_investment }}</td>
+                        <td>{{ private_investment }}</td>
+                        <td>{{ payoff }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endfor %}
+
+
+    <div class="next-button-container">
+        {{ next_button }}
+    </div>
+</div>
+{% endblock %}

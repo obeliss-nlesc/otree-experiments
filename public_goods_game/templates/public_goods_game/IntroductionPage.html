@@ -1,0 +1,152 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block custom_styles %}
+<style>
+    /* Font Import */
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+    /* Page Styles */
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #f7f9fc;
+        color: #424242;
+        line-height: 1.6;
+    }
+
+    .experiment-container {
+        max-width: 900px;
+        margin: 3% auto;
+        padding: 2% 4%;
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .header {
+        background-color: #2c3e50;
+        color: #fff;
+        padding: 30px;
+        text-align: center;
+        border-radius: 15px 15px 0 0;
+        margin: -2% -4% 4% -4%;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    .introduction,
+    .overview,
+    .stages {
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 30px;
+        margin-bottom: 30px;
+    }
+
+
+
+    .stages ol li {
+        counter-increment: list-counter;
+        padding-bottom: 15px;
+        position: relative;
+    }
+
+
+
+    .encouragement {
+        font-size: 1rem;
+        padding: 20px;
+        background-color: #e8f4fd;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .btn-primary {
+        font-size: 1rem;
+        color: #fff;
+        background-color: #4a86e8;
+        border: none;
+        border-radius: 30px;
+        padding: 15px 30px;
+        font-weight: 600;
+        display: inline-block;
+        transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .btn-primary:hover {
+        background-color: #3a72bb;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+    }
+
+    .next-button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 24px;
+    }
+
+    .icon-text {
+        margin-right: 0.5rem;
+    }
+
+    .stages-header {
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="experiment-container">
+    <div class="header">
+        <h1><i class="fas fa-users icon-text"></i>Exploring Cooperation</h1>
+    </div>
+
+    <div class="section introduction">
+        <h2><i class="fas fa-rocket icon-text"></i>Introduction</h2>
+        <p>Insert Dutch Introduction.</p>
+    </div>
+
+    <div class="section overview">
+        <h2><i class="fas fa-binoculars icon-text"></i>Experiment Overview</h2>
+        <p>Spanning seven rounds ...(Dutch instructions)...{% if punishment_condition %} This part is only visible for
+            people in punishment condition.{% else %}{% endif %}</p>
+    </div>
+
+    <div class="section stages">
+
+        {% if punishment_condition %}
+        <h2 class="stages-header"><i class="fas fa-tasks icon-text"></i>Sequential Stages</h2>
+        <ol>
+            <li>
+                <strong>Stage 1:</strong> Public Good Allocation - Decide how to distribute resources between collective
+                benefit and individual gain.
+            </li>
+            <li>
+                <strong>Stage 2:</strong> Punitive Measures - In selected rounds, decide whether to enforce penalties,
+                adding a complex layer to your decisions.
+            </li>
+        </ol>
+
+        {% else %}
+        <h2 class="stages-header"><i class="fas fa-tasks icon-text"></i>Public Good Allocation</h2>
+        <p>Decide how to distribute resources between collective
+                benefit and individual gain.</p>
+        {% endif %}
+    </div>
+
+    <div class="encouragement">
+        <p><i class="fas fa-heart icon-text"></i>Your role as a participant ...</p>
+        <div class="next-button-container">
+            {{ next_button }}
+        </div>
+    </div>
+</div>
+{% endblock content %}

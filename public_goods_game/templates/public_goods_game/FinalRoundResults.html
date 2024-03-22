@@ -1,0 +1,138 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block custom_styles %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+    @import url('https://use.fontawesome.com/releases/v5.15.1/css/all.css');
+
+    /* Page Styles */
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #f4f7fa;
+        color: #333;
+    }
+
+    .header {
+        color: #2c3e50;
+        margin-bottom: 3rem;
+        text-align: center;
+        font-size: 1.8rem;
+    }
+
+    .container {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        padding: 2rem;
+        margin-top: 2rem;
+    }
+
+    .row {
+        border-bottom: 1px solid #eaeaea;
+        padding-bottom: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    strong {
+        color: #2980b9;
+        font-weight: 700;
+    }
+
+    .fas {
+        color: #2980b9;
+        margin-right: 10px;
+    }
+
+    .next-button-container {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .next-button-container button.btn {
+        background-color: #2980b9;
+        color: white;
+        border: none;
+        font-weight: bold;
+        padding: 0.75rem 3rem;
+        border-radius: 25px;
+        transition: background-color 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-transform: uppercase;
+    }
+
+    .next-button-container button.btn:hover {
+        background-color: #1a5276;
+        cursor: pointer;
+    }
+
+    .row:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="header">Earnings at the End of Period {{ round_number }} <i class="fas fa-coins"></i></h1>
+    <div class="row">
+        <div class="col">
+            <i class="fas fa-balance-scale"></i>
+            <strong>Gross Profits: </strong>
+            {{ player.payoff_from_private }} from Private Account +
+            {{ player.payoff_from_public }} from Public Account =
+            {{ player.gross_profit }}
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <i class="fas fa-hand-holding-usd"></i>
+            <strong>Total Cost of Points Assigned:</strong>
+            {{ player.total_punishment_cost }}
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <i class="fas fa-gavel"></i>
+            <strong>Points Assigned to You:</strong>
+            {{ player.received_punishment }}
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <i class="fas fa-chart-line"></i>
+            <strong>Gross Profit Reduction:</strong>
+            {{ punishment_reduction_percentage }}%
+        </div>
+    </div>
+
+    <br>
+    <div class="row">
+        <div class="col">
+            <i class="fas fa-wallet"></i>
+            <strong>Current Period Payoff:</strong>
+            {{ player.payoff }}
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <i class="fas fa-piggy-bank"></i>
+            <strong>Accumulated Earnings:</strong>
+            {{ accumulated_payoff }}
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <div class="next-button-container">
+                {{ next_button }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

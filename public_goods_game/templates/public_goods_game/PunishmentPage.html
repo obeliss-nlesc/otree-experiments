@@ -1,0 +1,325 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block custom_styles %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+    /* Page Styles */
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #F7FAFC;
+        color: #2D3748;
+    }
+
+    .form-container {
+        position: relative;
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+    }
+
+    h1.card-title {
+        color: #2C3E50;
+        margin-bottom: 30px;
+        font-size: 2.2rem;
+        text-align: center;
+    }
+
+    .info-text {
+        color: #475569;
+        background-color: #E2E8F0;
+        padding: 15px;
+        border-radius: 5px;
+        border-left: solid 4px #3182CE;
+        margin-bottom: 2rem;
+    }
+
+    .error-message {
+        color: #E53E3E;
+        font-weight: bold;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .button-container .btn,
+    .button-container #calculate-cost-btn {
+        background-color: #3498db;
+        color: white;
+
+        border: none;
+        padding: 10px 20px;
+        border-radius: 30px;
+
+        transition: background-color 0.2s ease-in-out;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        margin-right: 10px;
+        text-align: center;
+        display: inline-block;
+        font-size: 0.9rem;
+    }
+
+    .button-container #calculate-cost-btn {
+        max-height: 43px;
+    }
+
+    .button-container .btn:hover,
+    .button-container #calculate-cost-btn:hover {
+        background-color: #3498db;
+        cursor: pointer;
+    }
+
+    .game-round-info {
+        color: #4A5568;
+        position: absolute;
+        bottom: 10px;
+        right: 30px;
+        font-size: 0.9em;
+        font-weight: 600;
+    }
+
+    #sum-display {
+        color: #2F855A;
+        font-weight: bold;
+
+        display: none;
+        margin-bottom: 20px;
+    }
+
+    @media screen and (max-width: 768px) {
+        .button-container {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .button-container .btn,
+        .button-container #calculate-cost-btn {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .button-container .btn:last-child,
+        .button-container #calculate-cost-btn:last-child {
+            margin-bottom: 0;
+        }
+
+        .game-round-info {
+            position: static;
+            margin-top: 20px;
+            text-align: center;
+        }
+    }
+
+    .form-group input {
+        border: 1px solid #CBD5E0;
+        border-radius: 0.375rem;
+        padding: 0.5rem 0.75rem;
+        margin-top: 0.25rem;
+        font-size: 1rem;
+        width: 100%;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .icon-text {
+        padding-right: 0.4rem;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 40px auto;
+    }
+
+    h1 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2.5rem;
+    }
+
+    .card {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+
+    .card-header {
+        background-color: #2980b9;
+        color: #fff;
+        font-size: 1.3rem;
+        font-weight: bold;
+        border-bottom: none;
+    }
+
+    .card-body {
+        background-color: #fff;
+        padding: 1.5rem;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table th {
+        background-color: #3498db;
+        color: white;
+        font-weight: bold;
+        border-left: none;
+    }
+
+    .table td {
+        background-color: #fff;
+        border-top: none;
+        color: #555;
+        font-weight: 500;
+    }
+
+    .table tbody tr:hover {
+        background-color: #daeaf6;
+    }
+
+    .table tbody tr td:last-child {
+        font-weight: bold;
+        color: #2980b9;
+    }
+
+    .next-button-container {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .next-button-container .btn {
+        background-color: #2980b9;
+        color: white;
+        border: none;
+        padding: 0.75rem 3rem;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 1.1rem;
+        transition: background-color 0.3s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        width: auto;
+        display: inline-block;
+    }
+
+    .next-button-container .btn:hover {
+        background-color: #1a5276;
+        cursor: pointer;
+    }
+
+    .player-highlight {
+        font-weight: bold;
+        color: #e74c3c;
+    }
+
+    .fa-icon {
+        margin-right: 0.5rem;
+    }
+</style>
+{% endblock custom_styles %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center my-4">
+        <h1><i class="fa fa-eye fa-icon"></i>Data from previous rounds</h1>
+    </div>
+
+    {% for round_number, round_data in table_data %}
+    <div class="card mt-4 shadow">
+        <h2 class="card-header">Player Data - Round - {{round_number}}</h2>
+        <div class="card-body">
+            <table class="table table-hover table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th><i class="fa fa-user fa-icon"></i>Player</th>
+                        <th><i class="fa fa-hand-holding-usd fa-icon"></i>Public Investment</th>
+                        <th><i class="fa fa-sitemap fa-icon"></i>Private investment</th>
+                        <th><i class="fa fa-dollar-sign fa-icon"></i>Payoff</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for public_investment, private_investment, payoff in round_data %}
+                    <tr>
+                        {% if forloop.counter == player_id %}
+                        <td>YOU</td>
+                        {% else %}
+                        <td>Player #{{ forloop.counter }}</td>
+                        {% endif %}
+                        <!-- Custom tag to highlight the player -->
+                        <td>{{ public_investment }}</td>
+                        <td>{{ private_investment }}</td>
+                        <td>{{ payoff }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endfor %}
+    <div class="form-container">
+        <h1 class="card-title"><i class="fas fa-gavel"></i> Punishment Stage</h1>
+        {% if round_number == 1 %}
+        <div class="info-text"><i class="fas fa-info-circle icon-text"></i>In the Full Punishment Condition,
+            participants
+            have the
+            ability to impact the earnings of their fellow group members. This unique feature allows participants to
+            assign
+            'punishment points', ranging from 0 to 10, to each of their group members.</div>
+        {% endif %}
+
+        <form action="" method="post" class="mt-5">
+            {% for player in players %}
+            <div class="form-group">
+                <label><i class="fas fa-user-circle"></i></label>
+                {{ formfield player }}
+            </div>
+            {% endfor %}
+            <div id="sum-display">Punishment cost: <span id="punishment-cost"></span></div>
+            <div class="button-container">
+                <button id="calculate-cost-btn" type="button" class="btn btn-primary">
+                    <i class="fas fa-calculator"></i> Calculate Cost
+                </button>
+                {{ next_button }}
+            </div>
+            <div class="game-round-info">
+                <i class="fas fa-layer-group"></i>Round: {{ round_number }}
+            </div>
+        </form>
+    </div>
+    {% endblock content %}
+
+
+    {% block custom_scripts %}
+    <script>
+        document.getElementById('calculate-cost-btn').addEventListener('click', function (e) {
+            e.preventDefault(); // prevent form from submitting
+
+            var sum = 0;
+            var inputs = document.getElementsByClassName('form-control');
+            var punishment_costs = {{ punishment_costs| safe
+        }};
+        for (var i = 0; i < inputs.length; i++) {
+            if (isNaN(inputs[i].value) || inputs[i].value > 10 || inputs[i].value < 0) {
+                alert('Invalid input. Please enter a number between 0 and 10.');
+                return; // stop execution of the function
+            }
+            sum += punishment_costs[Number(inputs[i].value)];
+        }
+
+        // Display the sum in the HTML document
+        document.getElementById('punishment-cost').textContent = sum;
+
+        // Make the sum visible
+        document.getElementById('sum-display').style.display = 'block';
+    });
+    </script>
+    {% endblock %}
