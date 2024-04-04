@@ -1,0 +1,30 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Het spel is voorbij!{{ endblock }}
+
+{{ block content }}
+
+{{ formfields }}
+
+{{if dropout}}
+
+<p>
+    Je bent een drop-out.
+</p>
+
+{{endif}}
+
+{{if not dropout and group_fail}}
+
+<p>
+    Er zijn niet meer voldoende spelers.
+</p>
+
+<p>Klik op volgende om het experiment af te ronden.</p>
+
+{{endif}}
+
+
+
+{{ next_button }}
+
+{{ endblock }}
