@@ -7,7 +7,12 @@ SESSION_CONFIGS = [
         num_demo_participants=6,
         app_sequence=["public_goods_game"],
         num_rounds=7,
-    )
+    ),
+    dict(
+        name='DropOutTest', 
+        num_demo_participants=3, 
+        app_sequence=['Game', 'EndGame'])
+    ]
 ]
 
 SESSION_CONFIG_DEFAULTS = dict(
