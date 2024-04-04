@@ -11,8 +11,8 @@ SESSION_CONFIGS = [
     dict(
         name='DropOutTest', 
         num_demo_participants=3, 
-        app_sequence=['Game', 'EndGame'])
-    ]
+        app_sequence=['Game', 'EndGame']
+        )
 ]
 
 SESSION_CONFIG_DEFAULTS = dict(
