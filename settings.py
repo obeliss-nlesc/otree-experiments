@@ -1,22 +1,22 @@
 from os import environ
 
 SESSION_CONFIGS = [
-    # dict(
-    #     name="public_goods_game_1",
-    #     display_name="Public goods game: with punishment condition",
-    #     num_demo_participants=4,
-    #     app_sequence=["public_goods_game"],
-    #     num_rounds=2,
-    #     punishment_condition=True,
-    # ),
-    # dict(
-    #     name="public_goods_game_2",
-    #     display_name="Public goods game: without punishment condition",
-    #     num_demo_participants=6,
-    #     app_sequence=["public_goods_game"],
-    #     num_rounds=2,
-    #     punishment_condition=False,
-    # ),
+    dict(
+        name="public_goods_game_1",
+        display_name="Public goods game: with punishment condition",
+        num_demo_participants=4,
+        app_sequence=["public_goods_game"],
+        num_rounds=2,
+        punishment_condition=True,
+    ),
+    dict(
+        name="public_goods_game_2",
+        display_name="Public goods game: without punishment condition",
+        num_demo_participants=6,
+        app_sequence=["public_goods_game"],
+        num_rounds=2,
+        punishment_condition=False,
+    ),
     dict(
         name='DropOutTest', 
         num_demo_participants=3, 
