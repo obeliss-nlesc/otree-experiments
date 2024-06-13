@@ -117,21 +117,19 @@
         }
     }
 
-    .form-group input {
-        border: 1px solid #CBD5E0;
-        border-radius: 0.375rem;
-        padding: 0.5rem 0.75rem;
-        margin-top: 0.25rem;
-        font-size: 1rem;
-        width: 100%;
-    }
-
     .form-group {
+        display: flex;
         margin-bottom: 1rem;
+        align-items: first baseline;
+        width: 50%;
     }
 
     .icon-text {
         padding-right: 0.4rem;
+    }
+
+    .fa-user-circle {
+        margin-right: 0.4rem;
     }
 
     .container {
@@ -268,12 +266,10 @@
     <div class="form-container">
         <h1 class="card-title"><i class="fas fa-gavel"></i> Punishment Stage</h1>
         {% if round_number == 1 %}
-        <div class="info-text"><i class="fas fa-info-circle icon-text"></i>In the Full Punishment Condition,
-            participants
+        <div class="info-text"><i class="fas fa-info-circle icon-text"></i>You
             have the
-            ability to impact the earnings of their fellow group members. This unique feature allows participants to
-            assign
-            'punishment points', ranging from 0 to 10, to each of their group members.</div>
+            ability to impact the earnings of your fellow group members by assigning
+            'punishment points', 0, 5 or 10, to each of their group members.</div>
         {% endif %}
 
         <form action="" method="post" class="mt-5">
@@ -304,22 +300,26 @@
             e.preventDefault(); // prevent form from submitting
 
             var sum = 0;
-            var inputs = document.getElementsByClassName('form-control');
-            var punishment_costs = {{ punishment_costs| safe
-        }};
-        for (var i = 0; i < inputs.length; i++) {
-            if (isNaN(inputs[i].value) || inputs[i].value > 10 || inputs[i].value < 0) {
-                alert('Invalid input. Please enter a number between 0 and 10.');
-                return; // stop execution of the function
-            }
-            sum += punishment_costs[Number(inputs[i].value)];
-        }
+            var inputs = document.querySelectorAll('.form-check input[type="radio"]:checked');
 
-        // Display the sum in the HTML document
-        document.getElementById('punishment-cost').textContent = sum;
+            var punishment_costs = {
+                '0': 0,
+                '5': 9,
+                '10': 30
+            };
 
-        // Make the sum visible
-        document.getElementById('sum-display').style.display = 'block';
-    });
+            inputs.forEach(function (input) {
+                console.log(input.value)
+                if (input.checked) {
+                    sum += punishment_costs[input.value];
+                }
+            });
+
+            // Display the sum in the HTML document
+            document.getElementById('punishment-cost').textContent = sum;
+
+            // Make the sum visible
+            document.getElementById('sum-display').style.display = 'block';
+        });
     </script>
     {% endblock %}

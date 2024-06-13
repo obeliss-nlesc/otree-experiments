@@ -1,0 +1,30 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Het spel is voorbij!{{ endblock }}
+
+{{ block content }}
+
+{{ formfields }}
+
+{{if dropout}}
+
+<p>
+    Je bent een drop-out.
+</p>
+
+{{endif}}
+
+{{if not dropout and group_fail}}
+
+<p>
+    Er zijn niet meer voldoende spelers.
+</p>
+
+{{endif}}
+
+
+<p><a href="https://messpanel.acc01.centerdata.nl/vragenlijsten/?finish=1&amp;otree=1">https://messpanel.acc01.centerdata.nl/vragenlijsten/?finish=1&amp;otree=1</a></p>
+
+
+{{ next_button }}
+
+{{ endblock }}
