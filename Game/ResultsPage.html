@@ -1,0 +1,14 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Resultaten{{ endblock }}
+
+{{ block content }}
+
+{{ formfields }}
+<p>
+    Je hebt {{contribution}} bijgedragen. In totaal is er {{total_contributions}} bijgedragen. Je budget voor de volgende ronde is daarmee {{total_payoff}}.
+</p>
+
+
+{{ next_button }}
+
+{{ endblock }}
