@@ -14,7 +14,7 @@ SESSION_CONFIGS = [
     dict(
         name="public_goods_game_2",
         display_name="Public goods game: without punishment condition",
-        num_demo_participants=6,
+        num_demo_participants=4,
         app_sequence=["public_goods_game"],
         num_rounds=2,
         punishment_condition=False,
@@ -39,7 +39,7 @@ PARTICIPANT_FIELDS = ["is_dropout", 'has_dropped_out', 'too_many_inactive_in_gro
 LANGUAGE_CODE = "en"
 
 # e.g. EUR, GBP, CNY, JPY
-REAL_WORLD_CURRENCY_CODE = "USD"
+REAL_WORLD_CURRENCY_CODE = "EUR"
 USE_POINTS = True
 
 ADMIN_USERNAME = "admin"
