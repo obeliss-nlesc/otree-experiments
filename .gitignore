@@ -1,6 +1,7 @@
 .history/
 __pycache__/
 venv
+*.env
 staticfiles
 .idea
 ./db.sqlite3
