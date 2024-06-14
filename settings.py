@@ -12,7 +12,7 @@ SESSION_CONFIGS = [
     dict(
         name="public_goods_game_2",
         display_name="Public goods game: without punishment condition",
-        num_demo_participants=6,
+        num_demo_participants=4,
         app_sequence=["public_goods_game"],
         num_rounds=2,
         punishment_condition=False,
@@ -46,5 +46,5 @@ ADMIN_PASSWORD = environ.get("OTREE_ADMIN_PASSWORD")
 
 DEMO_PAGE_INTRO_HTML = """ """
 
-SECRET_KEY = "blabl"
+SECRET_KEY = "blablaa"
 
