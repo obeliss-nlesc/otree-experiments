@@ -1,0 +1,697 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block custom_styles %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+    /* Page Styles */
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #F7FAFC;
+        color: #2D3748;
+    }
+
+    .form-container {
+        position: relative;
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+    }
+
+    h1.card-title {
+        color: #2C3E50;
+        margin-bottom: 30px;
+        font-size: 2.2rem;
+        text-align: center;
+    }
+
+    .info-text {
+        color: #475569;
+        background-color: #E2E8F0;
+        padding: 15px;
+        border-radius: 5px;
+        border-left: solid 4px #3182CE;
+        margin-bottom: 2rem;
+    }
+
+    .error-message {
+        color: #E53E3E;
+        font-weight: bold;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .button-container .btn,
+    .button-container #calculate-cost-btn {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 30px;
+        transition: background-color 0.2s ease-in-out;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        margin-right: 10px;
+        text-align: center;
+        display: inline-block;
+        font-size: 0.9rem;
+    }
+
+    .button-container #calculate-cost-btn {
+        max-height: 43px;
+    }
+
+    .button-container .btn:hover,
+    .button-container #calculate-cost-btn:hover {
+        background-color: #2980b9;
+        cursor: pointer;
+    }
+
+    .game-round-info {
+        color: #4A5568;
+        position: absolute;
+        bottom: 10px;
+        right: 30px;
+        font-size: 0.9em;
+        font-weight: 600;
+    }
+
+    #sum-display {
+        color: #2F855A;
+        font-weight: bold;
+        display: none;
+        margin-bottom: 20px;
+    }
+
+    @media screen and (max-width: 768px) {
+        .button-container {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .button-container .btn,
+        .button-container #calculate-cost-btn {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .button-container .btn:last-child,
+        .button-container #calculate-cost-btn:last-child {
+            margin-bottom: 0;
+        }
+
+        .game-round-info {
+            position: static;
+            margin-top: 20px;
+            text-align: center;
+        }
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 40px auto;
+    }
+
+    h1 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2.5rem;
+    }
+
+    .card {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+
+    .card-header {
+        background-color: #2980b9;
+        color: #fff;
+        font-size: 1.3rem;
+        font-weight: bold;
+        border-bottom: none;
+        position: relative;
+    }
+
+    .card-header .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+    }
+
+    .card-header .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+    }
+
+    .card-body {
+        background-color: #fff;
+        padding: 1.5rem;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table th {
+        background-color: #3498db;
+        color: white;
+        font-weight: bold;
+        border-left: none;
+    }
+
+    .table td {
+        background-color: #fff;
+        border-top: none;
+        color: #555;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    .table tbody tr:hover {
+        background-color: #daeaf6;
+    }
+
+    .next-button-container {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .next-button-container .btn {
+        background-color: #2980b9;
+        color: white;
+        border: none;
+        padding: 0.75rem 3rem;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 1.1rem;
+        transition: background-color 0.3s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        width: auto;
+        display: inline-block;
+    }
+
+    .next-button-container .btn:hover {
+        background-color: #1a5276;
+        cursor: pointer;
+    }
+
+    .player-highlight {
+        font-weight: bold;
+        color: #e74c3c;
+    }
+
+    .fa-icon {
+        margin-right: 0.5rem;
+    }
+
+    .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+    .tooltip-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 10px;
+    }
+
+    .tooltip-icon {
+    font-size: 1.2em;
+    color: #2980b9;
+    }
+
+    .tooltip-text {
+    font-size: 0.75em;
+    visibility: hidden;
+    width: auto;
+    max-width: 100vw;
+    background-color: #555;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateY(-5px);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    overflow: hidden;
+}
+
+.tooltip-text table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tooltip-text th, .tooltip-text td {
+    padding: 5px;
+    border: 1px solid #ddd;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.tooltip-text thead {
+    background-color: #444;
+    color: #fff;
+}
+
+.tooltip-text tbody tr:nth-child(even) {
+    background-color: #666;
+}
+
+.tooltip-text tbody tr:nth-child(odd) {
+    background-color: #555;
+}
+
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip-container:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(-5px);
+}
+
+.sort-btn {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 0;
+    font-size: 0.9em;
+    margin-left: 0.5rem;
+}
+.sort-btn i {
+    vertical-align: middle;
+}
+
+    .disabled-select {
+    background-color: #e0e0e0; /* Light grey background */
+    color: #a0a0a0; /* Grey text color */
+    border: 1px solid #d0d0d0; /* Grey border */
+    pointer-events: none; /* Prevent interaction */
+  }
+
+
+</style>
+
+{% endblock custom_styles %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center my-4">
+        <h1><i class="fa fa-eye fa-icon"></i> Gegevens uit vorige ronden</h1>
+    </div>
+
+     <!--  Display the most recent round first -->
+    {% for round_number, round_data in table_data %}
+    {% if round_number == most_recent_round %}
+
+    <!-- Straf section for the most recent round -->
+    <div class="form-container">
+        <h1 class="card-title"><i class="fa fa-gavel"></i> Straffen uitdelen</h1>
+       <div class="info-text">
+    Je kunt ervoor kiezen om de uitbetalingen van je groepsgenoten te verminderen door 'strafpunten' uit te delen. Je kunt 0 tot 10 strafpunten uitdelen aan ieder groepsgenoot.
+    Dit brengt kosten met zich mee.
+    <span class="tooltip-container">
+        <i class="fa fa-question-circle tooltip-icon" aria-label="Uitleg"></i>
+        <span class="tooltip-text">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aantal strafpunten naar speler</th>
+                        <th>0</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                        <th>9</th>
+                        <th>10</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Kosten voor straffer</td>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>4</td>
+                        <td>6</td>
+                        <td>9</td>
+                        <td>12</td>
+                        <td>16</td>
+                        <td>20</td>
+                        <td>25</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <td>Afname inkomsten gestrafte</td>
+                        <td>0%</td>
+                        <td>10%</td>
+                        <td>20%</td>
+                        <td>30%</td>
+                        <td>40%</td>
+                        <td>50%</td>
+                        <td>60%</td>
+                        <td>70%</td>
+                        <td>80%</td>
+                        <td>90%</td>
+                        <td>100%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </span>
+    </span>
+</div>
+        <div class="card mt-4 shadow">
+            <h2 class="card-header">
+                Keuzes en uitbetalingen - Ronde {{ round_number }}
+                <button class="btn btn-sm btn-secondary float-right" type="button" data-toggle="collapse" data-target="#table-{{ round_number }}" aria-expanded="true" aria-controls="table-{{ round_number }}">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </h2>
+            <div id="table-{{ round_number }}" class="collapse show">
+                <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th><i class="fa fa-user fa-icon"></i> Speler</th><th><i class="fa fa-check-circle fa-icon"></i> Status<button class="sort-btn" data-sort="dropout" type="button"><i class="fa fa-sort"></i></button></th>
+                            <th><i class="fa fa-hand-holding-usd fa-icon"></i> Inbreng fonds<button class="sort-btn" data-sort="public_investment" type="button"><i class="fa fa-sort"></i></button></th>
+                            <th><i class="fa fa-piggy-bank"></i> In eigen zak<button class="sort-btn" data-sort="private_investment" type="button"><i class="fa fa-sort"></i></button></th>
+                            <th><i class="fa fa-dollar-sign fa-icon"></i> Uitbetaling<button class="sort-btn" data-sort="payoff" type="button"><i class="fa fa-sort"></i></button></th>
+                            <th><i class="fa fa-gavel"></i> Straffen</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+        {% for public_investment, private_investment, payoff, dropout in round_data %}
+        <tr>
+            {% if forloop.counter == player_id %}
+            <td><strong>JIJ</strong></td>
+            {% else %}
+            <td>Speler #{{ forloop.counter }}</td>
+            {% endif %}
+            <td data-key="dropout">
+            {% if dropout %}
+            <span style="color:red;"><i class="fas fa-times-circle"></i> Afwezig</span>
+            {% else %}
+            <span style="color:green;"><i class="fas fa-check-circle"></i> Actief</span>
+            {% endif %}
+            </td>
+            <td data-key="public_investment">{{ public_investment }}</td>
+            <td data-key="private_investment">{{ private_investment }}</td>
+            <td data-key="payoff">{{ payoff }}</td>
+            <td>
+                {% if not dropout and forloop.counter != player_id %}
+                <select name="punishment_sent_to_player_{{ forloop.counter }}">
+                    <option value="0">0 strafpunten</option>
+                    <option value="1">1 strafpunt</option>
+                    <option value="2">2 strafpunten</option>
+                    <option value="3">3 strafpunten</option>
+                    <option value="4">4 strafpunten</option>
+                    <option value="5">5 strafpunten</option>
+                    <option value="6">6 strafpunten</option>
+                    <option value="7">7 strafpunten</option>
+                    <option value="8">8 strafpunten</option>
+                    <option value="9">9 strafpunten</option>
+                    <option value="10">10 strafpunten</option>
+                </select>
+                    {% elif dropout %}
+                       <select class="disabled-select">
+                           <option value="0" selected>0 strafpunten</option>
+                       </select>
+                    <input type="hidden" name="punishment_sent_to_player_{{ forloop.counter }}" value="0">
+                {% else %}
+                N.v.t.
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div id="sum-display">Strafkosten: <span id="punishment-cost"></span> punten</div>
+        <div class="button-container">
+            <button id="calculate-cost-btn" type="button" class="btn btn-primary" aria-label="Calculate total punishment costs">
+                <i class="fa fa-calculator"></i> Bereken strafkosten
+            </button>
+
+            {{ next_button }}
+        </div>
+        <div class="game-round-info">
+            <i class="far fa-clock"></i> Ronde: {{ round_number }}
+            <br>
+            <i class="fas fa-piggy-bank"></i> Opgebouwde winst: {{ accumulated_earnings }}
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+     <!--  Display other rounds after the most recent one -->
+    {% if round_number != 1 %}
+    <div class="form-container">
+    {% for round_number, round_data in other_rounds %}
+    {% if round_number != most_recent_round %}
+    <!-- Table for other rounds -->
+        <div class="card mt-4 shadow">
+        <h2 class="card-header">
+            Keuzes en uitbetalingen - Ronde {{ round_number }}
+            <button class="btn btn-sm btn-secondary float-right" type="button" data-toggle="collapse" data-target="#table-{{ round_number }}" aria-expanded="true" aria-controls="table-{{ round_number }}">
+                <i class="fa fa-chevron-down"></i>
+            </button>
+        </h2>
+
+        <div id="table-{{ round_number }}" class="collapse show">
+            <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th><i class="fa fa-user fa-icon"></i> Speler</th>
+                            <th><i class="fa fa-check-circle fa-icon"></i> Status<button class="sort-btn" data-sort="dropout" type="button"><i class="fa fa-sort"></i></button></th>
+                            <th><i class="fa fa-hand-holding-usd fa-icon"></i> Inbreng fonds<button class="sort-btn" data-sort="public_investment" type="button"><i class="fa fa-sort"></i></button></th>
+                            <th><i class="fa fa-piggy-bank"></i> In eigen zak<button class="sort-btn" data-sort="private_investment" type="button"><i class="fa fa-sort"></i></button></th>
+                            <th><i class="fa fa-dollar-sign fa-icon"></i> Uitbetaling<button class="sort-btn" data-sort="payoff" type="button"><i class="fa fa-sort"></i></button></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for public_investment, private_investment, payoff, dropout in round_data %}
+                        <tr>
+                            {% if forloop.counter == player_id %}
+                            <td><strong>JIJ</strong></td>
+                            {% else %}
+                            <td>Speler #{{ forloop.counter }}</td>
+                            {% endif %}
+                            <td>
+                                {% if dropout %}
+                                <span style="color:red;"><i class="fas fa-times-circle"></i> Afwezig</span>
+                                {% else %}
+                                <span style="color:green;"><i class="fas fa-check-circle"></i> Actief</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ public_investment }}</td>
+                            <td>{{ private_investment }}</td>
+                            <td>{{ payoff }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+        </div>
+
+    {% endif %}
+    {% endfor %}
+
+        <div class="next-button-container">
+            {{ next_button }}
+        </div>
+
+</div>
+        </div>
+      {% endif %}
+{% endblock content %}
+
+{% block custom_scripts %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Function to handle table sorting
+        function sortTable(table, columnIndex, order) {
+            const rowsArray = Array.from(table.querySelectorAll('tbody tr'));
+
+            rowsArray.sort((rowA, rowB) => {
+                const cellA = rowA.children[columnIndex].textContent.trim();
+                const cellB = rowB.children[columnIndex].textContent.trim();
+                const valueA = isNaN(cellA) ? cellA : parseFloat(cellA);
+                const valueB = isNaN(cellB) ? cellB : parseFloat(cellB);
+
+                if (valueA < valueB) return order === 'asc' ? -1 : 1;
+                if (valueA > valueB) return order === 'asc' ? 1 : -1;
+                return 0;
+            });
+
+            rowsArray.forEach(row => table.querySelector('tbody').appendChild(row));
+        }
+
+        document.querySelectorAll('.sort-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const table = this.closest('.card').querySelector('table');
+                const columnIndex = Array.from(this.closest('tr').children).indexOf(this.closest('th'));
+                const currentOrder = this.getAttribute('data-order') || 'asc';
+                const newOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+
+                // Sort the table
+                sortTable(table, columnIndex, newOrder);
+
+                // Update sort order attribute
+                this.setAttribute('data-order', newOrder);
+
+                // Update icons to reflect sorting state
+                document.querySelectorAll('.sort-btn').forEach(btn => {
+                    btn.innerHTML = '<i class="fa fa-sort"></i>';
+                });
+                this.innerHTML = newOrder === 'asc' ? '<i class="fas fa-sort-asc"></i>' : '<i class="fas fa-sort-desc"></i>';
+            });
+        });
+
+        // Handle collapse toggling
+        function handleCollapseToggle(event) {
+            const button = event.currentTarget;
+            const targetId = button.getAttribute('data-target');
+            const targetElement = document.querySelector(targetId);
+
+            if (targetElement.classList.contains('show')) {
+                targetElement.classList.remove('show');
+                button.querySelector('i').classList.remove('fa-chevron-up');
+                button.querySelector('i').classList.add('fa-chevron-down');
+            } else {
+                targetElement.classList.add('show');
+                button.querySelector('i').classList.remove('fa-chevron-down');
+                button.querySelector('i').classList.add('fa-chevron-up');
+            }
+        }
+
+        document.querySelectorAll('.btn[data-toggle="collapse"]').forEach(button => {
+            button.addEventListener('click', handleCollapseToggle);
+
+            // Initialize icon based on the current state of the collapsible element
+            const targetId = button.getAttribute('data-target');
+            const targetElement = document.querySelector(targetId);
+
+            if (targetElement.classList.contains('show')) {
+                button.querySelector('i').classList.add('fa-chevron-up');
+                button.querySelector('i').classList.remove('fa-chevron-down');
+            } else {
+                button.querySelector('i').classList.add('fa-chevron-down');
+                button.querySelector('i').classList.remove('fa-chevron-up');
+            }
+        });
+
+        // Function to handle the calculation of punishment costs
+        document.getElementById('calculate-cost-btn').addEventListener('click', function (e) {
+            e.preventDefault(); // Prevent form from submitting
+
+            let sum = 0;
+
+            const selects = document.querySelectorAll('select[name^="punishment_sent_to_player_"]');
+
+            const punishmentCosts = {
+                '0': 0,
+                '1': 1,
+                '2': 2,
+                '3': 4,
+                '4': 6,
+                '5': 9,
+                '6': 12,
+                '7': 16,
+                '8': 20,
+                '9': 25,
+                '10': 30
+            };
+
+            selects.forEach(select => {
+                const selectedValue = select.value;
+                sum += punishmentCosts[selectedValue];
+            });
+
+            document.getElementById('punishment-cost').textContent = sum;
+            document.getElementById('sum-display').style.display = 'block';
+        });
+    });
+
+document.addEventListener('DOMContentLoaded', function () {
+    function sortTable(table, columnIndex, order) {
+        const rowsArray = Array.from(table.querySelectorAll('tbody tr'));
+        const isNumeric = !isNaN(parseFloat(rowsArray[0].children[columnIndex].textContent.trim()));
+
+        rowsArray.sort((rowA, rowB) => {
+            const cellA = rowA.children[columnIndex].textContent.trim();
+            const cellB = rowB.children[columnIndex].textContent.trim();
+            const valueA = isNumeric ? parseFloat(cellA) : cellA;
+            const valueB = isNumeric ? parseFloat(cellB) : cellB;
+
+            if (valueA < valueB) return order === 'asc' ? -1 : 1;
+            if (valueA > valueB) return order === 'asc' ? 1 : -1;
+            return 0;
+        });
+
+        const tbody = table.querySelector('tbody');
+        rowsArray.forEach(row => tbody.appendChild(row));
+    }
+
+    document.querySelectorAll('.sort-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const table = this.closest('.card').querySelector('table');
+            const columnIndex = Array.from(this.closest('tr').children).indexOf(this.closest('th'));
+            const currentOrder = this.getAttribute('data-order') || 'asc';
+            const newOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+
+            // Sort the table
+            sortTable(table, columnIndex, newOrder);
+
+            // Update sort order attribute
+            this.setAttribute('data-order', newOrder);
+
+            // Update icons to reflect sorting state
+            document.querySelectorAll('.sort-btn').forEach(btn => {
+                btn.innerHTML = '<i class="fa fa-sort"></i>'; // Reset to default sort icon
+            });
+            this.innerHTML = newOrder === 'asc' ? '<i class="fa fa-sort-asc"></i>' : '<i class="fa fa-sort-desc"></i>';
+        });
+    });
+});
+</script>
+{% endblock %}

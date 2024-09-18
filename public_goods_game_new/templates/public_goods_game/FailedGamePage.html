@@ -1,0 +1,79 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block custom_styles %}
+<style>
+    /* Font Import */
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+    /* Page Styles */
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #f7f9fc;
+        color: #424242;
+        line-height: 1.6;
+    }
+
+    .card {
+        border: 1px solid #dfe4ef;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background-color: #2980b9;
+        color: #fff;
+        padding: 10px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .failure-icon {
+        color: #f44336;
+        font-size: 48px;
+        margin-bottom: 20px;
+    }
+
+    .failure-message {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .contact-message {
+        font-size: 16px;
+        font-style: italic;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-exclamation-triangle"></i> Fout!
+                </div>
+                {% if one_dropout %}
+                <div class="card-body">
+                    <p class="failure-icon"><i class="fas fa-hourglass"></i></p>
+                    <p class="failure-message">Helaas is het je niet gelukt om de pagina binnen de vereiste tijd te voltooien.
+                    </p>
+                    <p class="contact-message">Je mag het venster nu sluiten.</p>
+                </div>
+                {% else %}
+                <div class="card-body">
+                    <p class="failure-icon"><i class="fas fa-times-circle"></i></p>
+                    <p class="failure-message">Helaas kan het spel niet doorgaan vanwege te veel inactieve spelers in je groep.</p>
+                    <p class="contact-message">Je mag het venster nu sluiten.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

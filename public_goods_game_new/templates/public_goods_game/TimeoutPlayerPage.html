@@ -1,0 +1,98 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block custom_styles %}
+<style>
+    /* Font Import */
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+    /* Page Styles */
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #f7f9fc;
+        color: #424242;
+        line-height: 1.6;
+    }
+
+    .card {
+        border: 1px solid #dfe4ef;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background-color: #2980b9;
+        color: #fff;
+        padding: 10px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .failure-icon {
+        color: #e74c3c;
+        font-size: 48px;
+        margin-bottom: 20px;
+    }
+
+    .failure-message {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .contact-message {
+        font-size: 16px;
+        font-style: italic;
+    }
+
+    .next-button-container {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .next-button-container .btn {
+        background-color: #2980b9;
+        color: white;
+        border: none;
+        padding: 0.75rem 3rem;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 1rem;
+        transition: background-color 0.3s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        width: auto;
+        display: inline-block;
+    }
+
+    .next-button-container .btn:hover {
+        background-color: #1a5276;
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-hourglass-end"></i> De tijd is op!
+                </div>
+                <div class="card-body">
+                    <p class="failure-icon"><i class="fas fa-hourglass"></i></p>
+                    <p class="failure-message">Helaas, je hebt de pagina niet binnen de vereiste tijd afgerond.
+                    </p>
+                    <p class="contact-message">Je kunt weer meespelen in de volgende ronde.</p>
+                </div>
+                <div class="next-button-container">
+                    <button type="submit" class="btn btn-primary">Keer terug naar het spel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
