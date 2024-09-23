@@ -1,4 +1,6 @@
+import os
 from os import environ
+from django.core.management.utils import get_random_secret_key
 
 SESSION_CONFIGS = [
     dict(
@@ -37,7 +39,7 @@ PARTICIPANT_FIELDS = ["is_dropout", 'has_dropped_out', 'too_many_inactive_in_gro
 LANGUAGE_CODE = "en"
 
 # e.g. EUR, GBP, CNY, JPY
-REAL_WORLD_CURRENCY_CODE = "USD"
+REAL_WORLD_CURRENCY_CODE = "EUR"
 USE_POINTS = True
 
 ADMIN_USERNAME = "admin"
@@ -46,5 +48,4 @@ ADMIN_PASSWORD = environ.get("OTREE_ADMIN_PASSWORD")
 
 DEMO_PAGE_INTRO_HTML = """ """
 
-SECRET_KEY = "blablaa"
-
+SECRET_KEY = environ.get('OTREE_SECRET_KEY', get_random_secret_key())
